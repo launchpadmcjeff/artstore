@@ -8,13 +8,10 @@
 	<ui:define name="content">
 		<h:form>
 			<h:panelGrid columns="3" cellpadding="5">
-				<p:outputLabel value="Filter: " for="filter" />
-				<p:inputText id="filter" value="#{productBean.filter}"></p:inputText>
-				<p:commandButton value="Filter" update="productsTable"></p:commandButton>
-				<!-- <p:outputLabel value="Ajax Filter: " for="ajaxFilter" />
+				<p:outputLabel value="Ajax Filter: " for="ajaxFilter" />
 				<p:inputText id="ajaxFilter" value="#{productBean.filter}">
 					<p:ajax process="@this" update="productsTable" event="keyup"></p:ajax>
-				</p:inputText> -->
+				</p:inputText>
 			</h:panelGrid>
 			<p:dataTable id="productsTable" value="#{productBean.products}" var="product">
 				<p:column headerText="Img">
