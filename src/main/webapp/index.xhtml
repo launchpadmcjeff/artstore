@@ -8,8 +8,13 @@
 	<ui:define name="content">
 		<h:form>
 			<h:panelGrid columns="3" cellpadding="5">
+				<!-- I think this filter can probably be implemented by -->
+				<!-- the datatable. If we already have the data, and just -->
+				<!-- need to show less, why the need to go back to the -->
+				<!-- server at all? -->
 				<p:outputLabel value="Ajax Filter: " for="ajaxFilter" />
 				<p:inputText id="ajaxFilter" value="#{productBean.filter}">
+					<!-- 				What is the default event to process for p:inputText? valueChange? -->
 					<p:ajax process="@this" update="productsTable" event="keyup"></p:ajax>
 				</p:inputText>
 			</h:panelGrid>
@@ -25,6 +30,9 @@
 				<p:column headerText="Price" sortBy="#{product.price}">
 			#{product.price}
 			</p:column>
+				<p:column>
+				<p:commandButton value="Add" action="#{basket.addProduct(product)}" ajax="false"></p:commandButton>
+				</p:column>
 			</p:dataTable>
 
 			<div>
@@ -39,8 +47,9 @@
 
 	<ui:define name="footer">
 		<div style="background-color: red; width: 100%; color: navy">
-		
-		<a href="index.xhtml">1-800-ART-STORE</a></div>
+
+			<a href="index.xhtml">1-800-ART-STORE</a>
+		</div>
 	</ui:define>
 
 

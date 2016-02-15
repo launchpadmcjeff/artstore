@@ -1,0 +1,9 @@
+* Add the bstolz Faces Phase Listener code to follow what the details are from the following
+in details.xhtml and the bean:
+<f:metadata>
+			<f:viewParam name="pid" value="#{productDetailsBean.pid}"></f:viewParam>
+			<f:event type="javax.faces.event.PreRenderComponentEvent" listener="#{productDetailsBean.loadProduct}"></f:event>
+</f:metadata>
+
+* Add bstoltz credit/reference to other projects
+

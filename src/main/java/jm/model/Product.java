@@ -9,10 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Version;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import java.lang.Override;
 import java.math.BigDecimal;
 
+@XmlRootElement
 @Entity
 public class Product implements Serializable {
 

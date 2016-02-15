@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
 	<title><ui:insert name="title">Default title</ui:insert></title>
 </h:head>
@@ -13,12 +13,23 @@
 		<ui:insert name="header">
     	Header area.  See comments below this line in the source.
     	<!--  include your header file or uncomment the include below and create header.xhtml in this directory -->
-			<ui:include src="header.xhtml"/>
+			<ui:include src="header.xhtml" />
 		</ui:insert>
 	</div>
 
 
 	<div id="content">
+		<p:dataTable id="basket" value="#{basket.productsInBasket}" var="product">
+			<p:column>
+		#{product.name}
+		</p:column>
+			<f:facet name="footer">
+				<div>
+					Total: #{basket.total}
+					<p:commandLink action="checkout.xhtml">Order</p:commandLink>
+				</div>
+			</f:facet>
+		</p:dataTable>
 
 		<ui:insert name="content">
     	Content area.  See comments below this line in the source.
@@ -27,13 +38,16 @@
 			<!-- <ui:include src="content.xhtml"/> -->
 			<!-- </div> -->
 		</ui:insert>
+		
+		<ui:insert name="form">
+		</ui:insert>
 	</div>
 
 	<div id="footer">
 		<ui:insert name="footer">
     	Footer area.  See comments below this line in the source.
     	<!--  include your header file or uncomment the include below and create footer.xhtml in this directory -->
-			<ui:include src="footer.xhtml"/> 
+			<ui:include src="footer.xhtml" />
 		</ui:insert>
 	</div>
 
