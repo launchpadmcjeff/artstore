@@ -2,9 +2,9 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>jm</groupId>
+  <groupId>com.github.launchpadmcjeff</groupId>
   <artifactId>artstore</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -60,11 +60,17 @@
       <artifactId>primefaces</artifactId>
       <version>5.3</version>
     </dependency>
-    <dependency>
+    		<!-- http://commandlinefanatic.com/cgi-bin/showarticle.cgi?article=art032 -->
+    <!-- <dependency>
       <groupId>org.primefaces.extensions</groupId>
       <artifactId>all-themes</artifactId>
       <version>1.0.8</version>
-    </dependency>
+    </dependency> -->
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>afterdark</artifactId>
+			<version>1.0.8</version>
+		</dependency>
     <dependency>
       <groupId>javax.enterprise</groupId>
       <artifactId>cdi-api</artifactId>
