@@ -11,11 +11,6 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class WebOrder {
-	public WebOrder() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	@Id
 	@GeneratedValue
 	private long id;
@@ -23,6 +18,14 @@ public class WebOrder {
 	@ManyToOne(cascade=CascadeType.PERSIST)
 	private Customer customer;
 	
+	@ManyToMany
+	private List<Product> products;
+
+	public WebOrder() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public WebOrder(Customer customer, List<Product> productsInBasket) {
 		this.customer = customer;
 		this.products = productsInBasket;
@@ -51,7 +54,4 @@ public class WebOrder {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
-
-	@ManyToMany
-	private List<Product> products;
 }
