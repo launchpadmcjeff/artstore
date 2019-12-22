@@ -6,13 +6,13 @@ import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Observes;
 
-import jm.model.WebOrder;
+import jm.model.Order;
 
 @Stateless
 public class EmailNotifierService {
 
 	@Asynchronous
-	public void sendSomething(@Observes WebOrder webOrder) {
+	public void sendSomething(@Observes Order webOrder) {
 		try {
 			TimeUnit.SECONDS.sleep(5);
 		} catch (InterruptedException e) {

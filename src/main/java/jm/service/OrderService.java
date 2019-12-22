@@ -5,14 +5,14 @@ import javax.enterprise.event.Observes;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import jm.model.WebOrder;
+import jm.model.Order;
 
 @Stateless
 public class OrderService {
 	@PersistenceContext
 	private EntityManager em;
 
-	public void saveOrder(@Observes WebOrder webOrder) {
+	public void saveOrder(@Observes Order webOrder) {
 		em.persist(webOrder);
 	}
 	

@@ -1,4 +1,4 @@
-package jm.resource;
+package jm.restapi;
 
 import javax.ws.rs.core.Application;
 import javax.ws.rs.ApplicationPath;

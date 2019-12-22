@@ -4,11 +4,11 @@ import java.util.concurrent.TimeUnit;
 
 import javax.enterprise.event.Observes;
 
-import jm.model.WebOrder;
+import jm.model.Order;
 
 public class SmsNotifierService {
 
-	public void sendSomething(@Observes WebOrder webOrder) {
+	public void sendSomething(@Observes Order webOrder) {
 		try {
 			TimeUnit.SECONDS.sleep(5);
 		} catch (InterruptedException e) {

@@ -13,7 +13,7 @@ import javax.inject.Named;
 
 import jm.model.Customer;
 import jm.model.Product;
-import jm.model.WebOrder;
+import jm.model.Order;
 
 @ConversationScoped
 @Named
@@ -27,7 +27,7 @@ public class Basket implements Serializable {
 	private Conversation conversation;
 	
 	@Inject
-	Event<WebOrder> webOrderEvent;
+	Event<Order> webOrderEvent;
 	
 	public void addProduct(Product productsInBasket) {
 		if (conversation.isTransient()) {
@@ -52,7 +52,7 @@ public class Basket implements Serializable {
 	public void checkout() {
 		// Fire an event without concern for whomever is listening; Email and other observers
 		// such as OrderService can pick up the event without coupling to this basket class.
-		WebOrder foo = new WebOrder(customer, productsInBasket);
+		Order foo = new Order(customer, productsInBasket);
 		webOrderEvent.fire(foo);
 		
 		if (!conversation.isTransient()) {

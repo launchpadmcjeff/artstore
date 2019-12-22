@@ -10,7 +10,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class WebOrder {
+public class Order {
 	@Id
 	@GeneratedValue
 	private long id;
@@ -21,12 +21,12 @@ public class WebOrder {
 	@ManyToMany
 	private List<Product> products;
 
-	public WebOrder() {
+	public Order() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public WebOrder(Customer customer, List<Product> productsInBasket) {
+	public Order(Customer customer, List<Product> productsInBasket) {
 		this.customer = customer;
 		this.products = productsInBasket;
 	}
@@ -53,5 +53,10 @@ public class WebOrder {
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", customer=" + customer + ", products=" + products + "]";
 	}
 }
