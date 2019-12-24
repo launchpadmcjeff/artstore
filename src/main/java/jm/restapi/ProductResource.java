@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import jm.model.Product;
@@ -18,19 +19,19 @@ public class ProductResource {
 	private ProductRepo productRepo;
 
 	@GET
-	@Produces({ "application/json", "application/xml" })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getProducts() {
-		// @formatter:off
+		//@formatter:off
 		return Response
 				.status(Response.Status.OK)
 				.entity(productRepo.getProducts())
 				.build();
-		// @formatter:on
+		//@formatter:on
 	}
 
 	@Path(".xml")
 	@GET
-	@Produces({ "application/xml" })
+	@Produces({ MediaType.APPLICATION_XML })
 	public List<Product> getProductsDotXml() {
 		return productRepo.getProducts();
 	}
@@ -39,7 +40,7 @@ public class ProductResource {
 	// Best to make a new resource to handle serving up json by extension?
 	@Path(".json")
 	@GET
-	@Produces({ "application/json" })
+	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Product> getProductsDotJson() {
 		return productRepo.getProducts();
 	}

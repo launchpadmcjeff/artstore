@@ -28,12 +28,12 @@ public class DevDataGenerator {
 
 	@PostConstruct
 	private void generateDevData() {
-		em.persist(new Product("Self-Portrait, Spring 1887, Oil on pasteboard, 42 × 33.7 cm", new BigDecimal("9.99")));
-		em.persist(new Product("Skull of a Skeleton with Burning Cigarette, 1885–1886", new BigDecimal("19.99")));
-		em.persist(new Product("The Potato Eaters, 1885", new BigDecimal("29.99")));
-		em.persist(new Product("The Starry Night, June 1889", new BigDecimal("39.99")));
-		em.persist(new Product("The Sower, 1888", new BigDecimal("49.99")));
-		em.persist(new Product("The Round of the Prisoners, 1890", new BigDecimal("59.99")));
+		em.persist(new Product("Self-Portrait, Spring 1887, Oil on pasteboard, 42 × 33.7 cm", new BigDecimal("9.99"), 1L));
+		em.persist(new Product("Skull of a Skeleton with Burning Cigarette, 1885–1886", new BigDecimal("19.99"), 2L));
+		em.persist(new Product("The Potato Eaters, 1885", new BigDecimal("29.99"), 3L));
+		em.persist(new Product("The Starry Night, June 1889", new BigDecimal("39.99"), 4L));
+		em.persist(new Product("The Sower, 1888", new BigDecimal("49.99"), 5L));
+		em.persist(new Product("The Round of the Prisoners, 1890", new BigDecimal("59.99"), 6L));
 			
 	}
 
