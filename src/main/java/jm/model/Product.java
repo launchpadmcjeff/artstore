@@ -31,7 +31,7 @@ public class Product implements Serializable {
 	private String name;
 
 	@Column
-	private BigDecimal price;
+	private Long price;
 	
 	@Column
 	private Long imageId;
@@ -41,7 +41,7 @@ public class Product implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Product(String name, BigDecimal price, Long imageId) {
+	public Product(String name, Long price, Long imageId) {
 		super();
 		this.name = name;
 		this.price = price;
@@ -72,11 +72,11 @@ public class Product implements Serializable {
 		this.name = name;
 	}
 
-	public BigDecimal getPrice() {
+	public Long getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Long price) {
 		this.price = price;
 	}
 

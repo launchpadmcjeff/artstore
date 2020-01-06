@@ -64,3 +64,5 @@ deploy to wildfly
 
 ## TODO
 * AWS deployment pipeline
+* event sourcing publisher
+* 

@@ -44,7 +44,7 @@ public class Basket implements Serializable {
 		// productsInBasket.stream().
 		BigDecimal total = new BigDecimal(0);
 		for (Product i : productsInBasket) {
-			total = total.add(i.getPrice());
+//			total = total.add(i.getPrice());
 		}
 		return total;
 	}
