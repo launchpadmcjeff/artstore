@@ -4,10 +4,13 @@ import java.util.concurrent.TimeUnit;
 
 import javax.enterprise.event.Observes;
 
+import org.jboss.logging.Logger;
+
 import jm.model.Order;
 
 public class SmsNotifierService {
-
+	private static final Logger LOGGER = Logger.getLogger(SmsNotifierService.class);
+	
 	public void sendSomething(@Observes Order webOrder) {
 		try {
 			TimeUnit.SECONDS.sleep(5);
@@ -15,7 +18,6 @@ public class SmsNotifierService {
 			throw new RuntimeException(e);
 		}
 		
-		System.out.println("***SMS*** Order processed for "
-				+ webOrder.getCustomer().getName());
+		LOGGER.info("***SMS*** Order processed for ");
 	}
 }
