@@ -51,13 +51,13 @@ public class ProductRepoTest {
 	@Test
 	public void testListProductsAsc() {
 		List<Product> products = productRepo.getProducts(null, true);
-		assertThat(products.get(0).getPrice(), is(new BigDecimal("9.99")));
+		assertThat(products.get(0).getPrice(), is(999L));
 	}
 	
 	@Test
 	public void testListProductsDesc() {
 		List<Product> products = productRepo.getProducts(null, false);
-		assertThat(products.get(0).getPrice(), is(new BigDecimal("59.99")));
+		assertThat(products.get(0).getPrice(), is(5999L));
 	}
 	
 	@Test
