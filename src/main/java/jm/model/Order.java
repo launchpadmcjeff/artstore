@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -21,8 +22,54 @@ public class Order {
 	@ManyToOne(cascade=CascadeType.PERSIST)
 	private Customer customer;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Product> products;
+
+	private String ccNumber;
+	private String ccName;
+	private String ccExp;
+	private String ccCsc;
+	private Boolean billingEqualShipping;
+	
+	public String getCcNumber() {
+		return ccNumber;
+	}
+
+	public void setCcNumber(String ccNumber) {
+		this.ccNumber = ccNumber;
+	}
+
+	public String getCcName() {
+		return ccName;
+	}
+
+	public void setCcName(String ccName) {
+		this.ccName = ccName;
+	}
+
+	public String getCcExp() {
+		return ccExp;
+	}
+
+	public void setCcExp(String ccExp) {
+		this.ccExp = ccExp;
+	}
+
+	public String getCcCsc() {
+		return ccCsc;
+	}
+
+	public void setCcCsc(String ccCsc) {
+		this.ccCsc = ccCsc;
+	}
+
+	public Boolean getBillingEqualShipping() {
+		return billingEqualShipping;
+	}
+
+	public void setBillingEqualShipping(Boolean billingEqualShipping) {
+		this.billingEqualShipping = billingEqualShipping;
+	}
 
 	private Long itemCount;
 	private Long subTotal;

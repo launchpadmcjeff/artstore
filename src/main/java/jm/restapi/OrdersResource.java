@@ -53,6 +53,7 @@ public class OrdersResource {
 	@POST
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response newOrder(Order order, @Context UriInfo uriInfo) {
+		LOGGER.info(order);
 		orderRepo.newOrder(order);
 		UriBuilder builder = uriInfo.getAbsolutePathBuilder();
 		builder.path(Integer.toString(99));
