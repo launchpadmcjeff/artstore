@@ -1,0 +1,235 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "This template creates the resources required for a sample AWS CodeDeploy in-place deployment.",
+    "Parameters": {
+        "VpcStackName": {
+            "Default": "artstore-vpc",
+            "Description": "Name of an active CloudFormation stack that contains the networking resources, such as the subnet and security group, that will be used in this stack.",
+            "Type": "String"
+        },
+        "RoleStackName": {
+            "Default": "artstore-roles",
+            "Description": "Name of an active CloudFormation stack containing roles for this stack.",
+            "Type": "String"
+        },
+        "InstanceType": {
+            "Description": "WebServer EC2 instance type",
+            "Type": "String",
+            "Default": "t2.micro",
+            "AllowedValues": [
+                "t2.micro",
+                "t2.small"
+            ],
+            "ConstraintDescription": "Must be a valid EC2 instance type"
+        }
+    },
+    "Mappings": {
+        "AWSInstanceType2Arch": {
+            "t2.micro": {
+                "Arch": "HVM64"
+            },
+            "t2.small": {
+                "Arch": "HVM64"
+            },
+            "t2.medium": {
+                "Arch": "HVM64"
+            }
+        },
+        "AWSRegionArch2AMI": {
+            "us-east-1": {
+                "HVM64": "ami-08842d60"
+            },
+            "us-east-2": {
+                "HVM64": "ami-08842d60"
+            },
+            "us-west-1": {
+                "HVM64": "ami-8786c6b7"
+            },
+            "us-west-2": {
+                "HVM64": "ami-cfa8a18a"
+            },
+            "eu-west-1": {
+                "HVM64": "ami-748e2903"
+            },
+            "eu-west-2": {
+                "HVM64": "ami-e3051987"
+            },
+            "eu-central-1": {
+                "HVM64": "ami-b43503a9"
+            },
+            "ap-southeast-1": {
+                "HVM64": "ami-d6e1c584"
+            },
+            "ap-southeast-2": {
+                "HVM64": "ami-fd4724c7"
+            },
+            "ap-northeast-1": {
+                "HVM64": "ami-35072834"
+            },
+            "sa-east-1": {
+                "HVM64": "ami-956cc688"
+            },
+            "ca-central-1": {
+                "HVM64": "ami-ac57c595"
+            }
+        }
+    },
+    "Resources": {
+        "WebServerInstance": {
+            "Type": "AWS::EC2::Instance",
+            "CreationPolicy": {
+                "ResourceSignal": {
+                    "Timeout": "PT9M"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Init": {
+                    "services": {
+                        "sysvint": {
+                            "codedeploy-agent": {
+                                "enabled": "true",
+                                "ensureRunning": "true"
+                            }
+                        }
+                    }
+                }
+            },
+            "Properties": {
+                "IamInstanceProfile": {
+                    "Fn::ImportValue": {
+                        "Fn::Sub": "${RoleStackName}-InstanceRoleInstanceProfile"
+                    }
+                },
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "AWSRegionArch2AMI",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        {
+                            "Fn::FindInMap": [
+                                "AWSInstanceType2Arch",
+                                {
+                                    "Ref": "InstanceType"
+                                },
+                                "Arch"
+                            ]
+                        }
+                    ]
+                },
+                "InstanceType": {
+                    "Ref": "InstanceType"
+                },
+                "KeyName": {
+                    "Fn::Sub": "aws-${AWS::Region}"
+                },
+                "SubnetId": {
+                    "Fn::ImportValue": {
+                        "Fn::Sub": "${VpcStackName}-SubnetID0"
+                    }
+                },
+                "SecurityGroupIds": [
+                    {
+                        "Fn::ImportValue": {
+                            "Fn::Sub": "${VpcStackName}-TestWebServerSecurityGroupID"
+                        }
+                    },
+                    {
+                        "Fn::ImportValue": {
+                            "Fn::Sub": "${VpcStackName}-SshSecurityGroupID"
+                        }
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash -ex\n",
+                                "yum update -y aws-cfn-bootstrap\n",
+                                "yum install -y aws-cli\n",
+                                "# Helper function.\n",
+                                "function error_exit\n",
+                                "{\n",
+                                "/opt/aws/bin/cfn-signal -e $1 ",
+                                "  --stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                "  --resource WebServerInstance ",
+                                "  --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n",
+                                "  exit 1\n",
+                                "}\n",
+                                "yum install -y mlocate\n",
+                                "yum install -y java-1.8.0 || error_exit 1\n",
+                                "yum install -y java-1.8.0-openjdk-devel || error_exit 1\n",
+                                "alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java || error_exit 1\n",
+                                "cd /home/ec2-user/\n",
+                                "aws s3 cp s3://robowebi-nexus/wildfly-10.1.0.Final.tar.gz .\n",
+                                "tar xzvf wildfly-10.1.0.Final.tar.gz\n",
+                                "chown -R ec2-user:ec2-user wildfly-10.1.0.Final\n",
+                                "# Install the AWS CodeDeploy Agent.\n",
+                                "aws s3 cp 's3://aws-codedeploy-us-east-1/latest/codedeploy-agent.noarch.rpm' . || error_exit 1\n",
+                                "yum -y install codedeploy-agent.noarch.rpm || error_exit 1\n",
+                                "/opt/aws/bin/cfn-init -s ",
+                                {
+                                    "Ref": "AWS::StackId"
+                                },
+                                " -r WebServerInstance --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                " || error_exit\n",
+                                "# All is well, so signal success.\n",
+                                "/opt/aws/bin/cfn-signal -e 0 ",
+                                "  --stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                "  --resource WebServerInstance ",
+                                "  --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n"
+                            ]
+                        ]
+                    }
+                },
+                "Tags": [
+                    {
+                        "Key": "Environment",
+                        "Value": "code-deploy-artstore"
+                    },
+                    {
+                        "Key": "Name",
+                        "Value": "code-deploy-artstore"
+                    }
+                ]
+            }
+        }
+    },
+    "Outputs": {
+        "WebsiteURL": {
+            "Description": "URL for newly created single-instance stack",
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "http://",
+                        {
+                            "Fn::GetAtt": [
+                                "WebServerInstance",
+                                "PublicDnsName"
+                            ]
+                        }
+                    ]
+                ]
+            }
+        }
+    }
+}

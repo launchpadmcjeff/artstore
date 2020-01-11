@@ -1,0 +1,7 @@
+{
+  "Parameters" : { 
+    "InstanceCount" : "2",
+    "InstanceType": "t2.micro",
+    "LoadBalancerName": "artstore-elb"
+  }
+}
