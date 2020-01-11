@@ -96,17 +96,18 @@ function uninstall {
 }
 
 
-
-if [ "$1" = "install" ]
-then
-	echo "install needs repo and key"
+case $1 in
+  "install")
+	echo "installing to region $2 with $3 AZs"
 	install $2 $3
-fi
-
-if [ "$1" = "uninstall" ]
-then
-	echo "uninstalling..."
+	;;
+  "uninstall")
+	echo "uninstalling from $2"
 	uninstall $2
-fi
+	;;
+  *)
+	echo "usage: ${0} install|uninstall REGION AZ_COUNT"
+  ;;
+esac
 
 echo "done $1"
