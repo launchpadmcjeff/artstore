@@ -1,0 +1,110 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "CodeDeploy template for deploying code.",
+    "Metadata": {},
+    "Parameters": {
+        "RoleStackName": {
+            "Description": "The stack exporting service roles.",
+            "Type": "String",
+            "MinLength": 1,
+            "MaxLength": 255,
+            "AllowedPattern": "^[a-zA-Z][-a-zA-Z0-9]*$",
+            "Default": "artstore-roles",
+            "ConstraintDescription": "ApplicationName is a AWS Name Type. Ending with a dash is also illegal"
+        },
+        "DeploymentGroupName": {
+            "Description": "A name for the CodeDeploy group.",
+            "Type": "String",
+            "MinLength": 1,
+            "MaxLength": 255,
+            "AllowedPattern": "^[a-zA-Z][-a-zA-Z0-9]*$",
+            "Default": "artstore-group",
+            "ConstraintDescription": "DeploymentGroupName is a AWS Name Type. Two consecutive dashes is also illegal"
+        },
+        "DeploymentConfigName": {
+            "Description": "A name for the CodeDeploy config.",
+            "Type": "String",
+            "MinLength": 1,
+            "MaxLength": 255,
+            "AllowedPattern": "^[a-zA-Z][-a-zA-Z0-9]*$",
+            "Default": "artstore-config",
+            "ConstraintDescription": "DeploymentConfigName is a AWS Name Type. Two consecutive dashes is also illegal"
+        }
+    },
+    "Resources": {
+        "Application": {
+            "Type": "AWS::CodeDeploy::Application",
+            "Properties": {},
+            "Metadata": {}
+        },
+        "DeploymentGroup": {
+            "Type": "AWS::CodeDeploy::DeploymentGroup",
+            "Properties": {
+                "ApplicationName": {
+                    "Ref": "Application"
+                },
+                "ServiceRoleArn": {
+                    "Fn::ImportValue": {
+                        "Fn::Sub": "${RoleStackName}-CodeDeployRole"
+                    }
+                },
+                "DeploymentConfigName": "CodeDeployDefault.OneAtATime",
+                "Ec2TagFilters": [
+                    {
+                        "Key": "Environment",
+                        "Type": "KEY_AND_VALUE",
+                        "Value": "code-deploy-artstore"
+                    }
+                ]
+            },
+            "Metadata": {}
+        },
+        "DeploymentConfig": {
+            "Type": "AWS::CodeDeploy::DeploymentConfig",
+            "Properties": {
+                "DeploymentConfigName": {
+                    "Ref": "DeploymentConfigName"
+                },
+                "MinimumHealthyHosts": {
+                    "Type": "HOST_COUNT",
+                    "Value": 1
+                }
+            }
+        }
+    },
+    "Outputs": {
+        "Application": {
+            "Description": "The CodeDeploy application",
+            "Value": {
+                "Ref": "Application"
+            },
+            "Export": {
+                "Name": {
+                    "Fn::Sub": "${AWS::StackName}-CodeDeployApplication"
+                }
+            }
+        },
+        "DeploymentGroup": {
+            "Description": "The CodeDeploy deployment group",
+            "Value": {
+                "Ref": "DeploymentGroup"
+            },
+            "Export": {
+                "Name": {
+                    "Fn::Sub": "${AWS::StackName}-CodeDeployDeploymentGroup"
+                }
+            }
+        },
+        "DeploymentConfig": {
+            "Description": "The CodeDeploy deployment configuration",
+            "Value": {
+                "Ref": "DeploymentConfig"
+            },
+            "Export": {
+                "Name": {
+                    "Fn::Sub": "${AWS::StackName}-CodeDeployConfig"
+                }
+            }
+        }
+    }
+}
