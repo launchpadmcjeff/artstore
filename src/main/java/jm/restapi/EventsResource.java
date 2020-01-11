@@ -12,19 +12,16 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-import javax.validation.*;
 
 import org.jboss.logging.Logger;
 
-import jm.model.Order;
-import jm.repository.OrderRepo;
+import jm.model.ClientEvent;
 
-@Path("/orders")
-public class OrdersResource {
-	private static final Logger LOGGER = Logger.getLogger(OrdersResource.class);
+
+@Path("/clients")
+public class EventsResource {
+	private static final Logger LOGGER = Logger.getLogger(EventsResource.class);
 	
-	@Inject
-	private OrderRepo orderRepo;
 	
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -32,7 +29,7 @@ public class OrdersResource {
 		// @formatter:off
 		return Response
 				.status(Response.Status.OK)
-				.entity(orderRepo.getOrders())
+				.entity("foo")
 				.build();
 		// @formatter:on
 	}
@@ -45,18 +42,16 @@ public class OrdersResource {
 		// @formatter:off
 		return Response
 				.status(Response.Status.OK)
-				.entity(orderRepo.getOrders())
+				.entity("bar")
 				.build();
 		// @formatter:on
 	}
 
 	@POST
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response newOrder(Order order, @Context UriInfo uriInfo) {
-		LOGGER.info(order);
-		orderRepo.newOrder(order);
+	public Response newOrder(ClientEvent clientEvent, @Context UriInfo uriInfo) {
 		UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-		builder.path(Integer.toString(99));
+		builder.path(Integer.toString(41));
 		// @formatter:off
 		return Response
 				.created(builder.build())

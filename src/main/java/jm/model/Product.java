@@ -18,21 +18,11 @@ import java.math.BigDecimal;
 @Entity
 public class Product implements Serializable {
 
-	public Product(String name, BigDecimal price) {
-		super();
-		this.name = name;
-		this.price = price;
-	}
-
-	public Product() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
+	
 	@Version
 	@Column(name = "version")
 	private int version;
@@ -41,7 +31,22 @@ public class Product implements Serializable {
 	private String name;
 
 	@Column
-	private BigDecimal price;
+	private Long price;
+	
+	@Column
+	private Long imageId;
+
+	public Product() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Product(String name, Long price, Long imageId) {
+		super();
+		this.name = name;
+		this.price = price;
+		this.imageId = imageId;
+	}
 
 	public Long getId() {
 		return this.id;
@@ -67,12 +72,20 @@ public class Product implements Serializable {
 		this.name = name;
 	}
 
-	public BigDecimal getPrice() {
+	public Long getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Long price) {
 		this.price = price;
+	}
+
+	public Long getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(Long imageId) {
+		this.imageId = imageId;
 	}
 
 	@Override
