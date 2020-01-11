@@ -4,9 +4,9 @@
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.github.launchpadmcjeff</groupId>
+	<groupId>be.robowe</groupId>
 	<artifactId>artstore</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>war</packaging>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
