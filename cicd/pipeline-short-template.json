@@ -36,7 +36,7 @@
         "GitBranch": {
             "Description": "Git branch to use for builds.",
             "Type": "String",
-            "Default": "master",
+            "Default": "release-0.0.1",
             "AllowedPattern": "[\\x20-\\x7E]*",
             "ConstraintDescription": "Can contain only ASCII characters."
         },
