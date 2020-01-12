@@ -118,7 +118,7 @@
                     }
                 },
                 "Source": {
-                    "BuildSpec": "aws/buildspec.yml",
+                    "BuildSpec": "cicd/buildspec.yml",
                     "Location": "https://git-codecommit.us-east-2.amazonaws.com/v1/repos/artstore",
                     "Type": "CODECOMMIT"
                 },
